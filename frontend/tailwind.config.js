@@ -7,17 +7,22 @@ export default {
   theme: {
     extend: {
       colors: {
+        slate: {
+          850: '#131c2e',
+          950: '#070b12',
+        },
         navy: {
-          950: '#0B1220', // deep background
-          900: '#0F172A',
-          850: '#151F30', // primary card background
-          800: '#1E293B', // card borders & secondary
-          700: '#334155',
+          950: '#060A12', // ultra deep obsidian
+          900: '#0C121E',
+          850: '#121A2A', // polished card
+          800: '#1C263B', // border subtle
+          700: '#2A3852',
         },
         emerald: {
           400: '#34D399',
           500: '#10B981',
           600: '#059669',
+          glow: '#05F292',
         },
         amber: {
           400: '#FBBF24',
@@ -25,12 +30,24 @@ export default {
           600: '#D97706',
         },
         rose: {
-          500: '#EF4444',
-          600: '#DC2626',
+          500: '#F43F5E',
+          600: '#E11D48',
+        },
+        cyan: {
+          400: '#22D3EE',
+          500: '#06B6D4',
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', '"Inter"', 'system-ui', 'sans-serif'],
+        body: ['"Inter"', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+      },
+      boxShadow: {
+        'glow-emerald': '0 0 25px -5px rgba(16, 185, 129, 0.35)',
+        'glow-amber': '0 0 25px -5px rgba(245, 158, 11, 0.35)',
+        'glow-rose': '0 0 25px -5px rgba(244, 63, 94, 0.35)',
+        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
       }
     },
   },
