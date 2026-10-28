@@ -1,9 +1,12 @@
 import datetime
 import uuid
 from typing import Optional, List
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Query, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 import sqlite3
 
 from app.database import init_db, get_db
@@ -18,9 +21,13 @@ from app.models import (
 )
 from app.clustering import find_hotspots
 
+# ---- Production paths ----
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+FRONTEND_DIST = BASE_DIR / "frontend" / "dist"
+
 app = FastAPI(
     title="RoadSense AI API",
-    description="Crowdsourced Road Quality & Pothole Telemetry Backend",
+    description="Crowdsourced Road Quality & Pothole Telemetry — Production Server",
     version="1.0.0",
 )
 
@@ -28,7 +35,7 @@ app = FastAPI(
 init_db()
 seed_database_if_empty()
 
-# CORS for local and mobile testing
+# CORS — production allows same-origin; keep permissive for mobile Wi-Fi testing
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -54,18 +61,21 @@ def row_to_dict(row: sqlite3.Row) -> dict:
     }
 
 
+# ===================== API ROUTES =====================
+
 @app.get("/api/health")
 async def health_check():
     return {
         "status": "healthy",
         "app": "RoadSense AI",
         "version": "1.0.0",
+        "mode": "production",
         "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
     }
 
 
 @app.get("/api/reports", response_model=List[ReportResponse])
-async def list_reports(
+def list_reports(
     is_demo: Optional[bool] = Query(None, description="Filter demo vs real reports"),
     status: Optional[str] = Query(None, description="Filter by status"),
     severity: Optional[str] = Query(None, description="Filter by severity estimate"),
@@ -104,7 +114,7 @@ async def list_reports(
 
 
 @app.post("/api/reports", response_model=ReportResponse, status_code=status.HTTP_201_CREATED)
-async def create_report(
+def create_report(
     payload: ReportCreate,
     db: sqlite3.Connection = Depends(get_db),
 ):
@@ -152,7 +162,7 @@ async def create_report(
 
 
 @app.get("/api/reports/{report_id}", response_model=ReportResponse)
-async def get_report(
+def get_report(
     report_id: str,
     db: sqlite3.Connection = Depends(get_db),
 ):
@@ -165,7 +175,7 @@ async def get_report(
 
 
 @app.patch("/api/reports/{report_id}", response_model=ReportResponse)
-async def update_report(
+def update_report(
     report_id: str,
     payload: ReportUpdate,
     db: sqlite3.Connection = Depends(get_db),
@@ -206,7 +216,7 @@ async def update_report(
 
 
 @app.delete("/api/reports/demo", response_model=DemoDeleteResponse)
-async def delete_demo_reports(
+def delete_demo_reports(
     db: sqlite3.Connection = Depends(get_db),
 ):
     cursor = db.cursor()
@@ -223,7 +233,7 @@ async def delete_demo_reports(
 
 
 @app.get("/api/stats", response_model=StatsResponse)
-async def get_stats(
+def get_stats(
     include_demo: bool = Query(False, description="Include demo reports in statistics"),
     db: sqlite3.Connection = Depends(get_db),
 ):
@@ -250,14 +260,10 @@ async def get_stats(
     cursor.execute(f"SELECT COUNT(*) FROM reports WHERE status = 'resolved' {and_demo_filter}")
     resolved_count = cursor.fetchone()[0]
 
-    cursor.execute(
-        f"SELECT status, COUNT(*) FROM reports {demo_filter} GROUP BY status"
-    )
+    cursor.execute(f"SELECT status, COUNT(*) FROM reports {demo_filter} GROUP BY status")
     status_counts = {row[0]: row[1] for row in cursor.fetchall()}
 
-    cursor.execute(
-        f"SELECT severity_estimate, COUNT(*) FROM reports {demo_filter} GROUP BY severity_estimate"
-    )
+    cursor.execute(f"SELECT severity_estimate, COUNT(*) FROM reports {demo_filter} GROUP BY severity_estimate")
     severity_counts = {row[0]: row[1] for row in cursor.fetchall()}
 
     cursor.execute("SELECT COUNT(*) FROM reports WHERE is_demo = 1")
@@ -286,7 +292,7 @@ async def get_stats(
 
 
 @app.get("/api/hotspots", response_model=List[HotspotResponse])
-async def get_hotspots(
+def get_hotspots(
     include_demo: bool = Query(False, description="Include demo reports in hotspot detection"),
     eps_meters: float = Query(65.0, ge=10.0, le=500.0, description="DBSCAN radius in meters"),
     min_samples: int = Query(2, ge=2, le=50, description="Minimum reports to form a cluster"),
@@ -302,3 +308,42 @@ async def get_hotspots(
 
     return find_hotspots(reports, eps_meters=eps_meters, min_samples=min_samples)
 
+
+# ===================== PRODUCTION STATIC FILE SERVING =====================
+# Mount the production-built React frontend
+# This MUST come AFTER all /api routes
+
+if FRONTEND_DIST.exists():
+    # Serve static assets (JS, CSS, images)
+    app.mount("/assets", StaticFiles(directory=str(FRONTEND_DIST / "assets")), name="static-assets")
+
+    # Serve public files (manifest, icons, sw.js)
+    @app.get("/manifest.json")
+    async def serve_manifest():
+        return FileResponse(str(FRONTEND_DIST / "manifest.json"))
+
+    @app.get("/icon.svg")
+    async def serve_icon():
+        return FileResponse(str(FRONTEND_DIST / "icon.svg"), media_type="image/svg+xml")
+
+    @app.get("/sw.js")
+    async def serve_sw():
+        return FileResponse(str(FRONTEND_DIST / "sw.js"), media_type="application/javascript")
+
+    # SPA catch-all: serve index.html for all non-API routes (React Router handles client-side routing)
+    @app.get("/{full_path:path}")
+    async def serve_spa(full_path: str):
+        # If the file exists in dist, serve it directly
+        file_path = FRONTEND_DIST / full_path
+        if file_path.is_file():
+            return FileResponse(str(file_path))
+        # Otherwise serve index.html (SPA client-side routing)
+        return FileResponse(str(FRONTEND_DIST / "index.html"))
+else:
+    @app.get("/")
+    async def root():
+        return {
+            "message": "RoadSense AI Backend is running in API-only mode.",
+            "docs": "/docs",
+            "note": "Run 'npm run build' in /frontend to enable the production web UI."
+        }

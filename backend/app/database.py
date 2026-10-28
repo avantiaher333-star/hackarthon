@@ -4,8 +4,8 @@ from app.config import DB_PATH
 
 
 def get_db_connection() -> sqlite3.Connection:
-    """Creates a connection with row factory enabled."""
-    conn = sqlite3.connect(DB_PATH)
+    """Creates a connection with row factory enabled and cross-thread access allowed."""
+    conn = sqlite3.connect(DB_PATH, check_same_thread=False)
     conn.row_factory = sqlite3.Row
     return conn
 

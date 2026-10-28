@@ -1,5 +1,7 @@
 import { RoadReport, Hotspot, SystemStats, ReportStatus, SeverityLevel } from '../types';
 
+// Production: same-origin API (served from FastAPI on same port)
+// Development: proxied via Vite config
 const API_BASE = '/api';
 
 export interface ReportFilterParams {
