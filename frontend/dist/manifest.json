@@ -1,0 +1,17 @@
+{
+  "short_name": "RoadSense",
+  "name": "RoadSense AI - Crowdsourced Road Quality Telemetry",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0B1220",
+  "theme_color": "#0B1220",
+  "display": "standalone",
+  "orientation": "portrait"
+}
+
