@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: roadsense-ai
+    env: python
+    buildCommand: "pip install -r backend/requirements.txt && cd frontend && npm install && npm run build"
+    startCommand: "python backend/run.py"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: NODE_VERSION
+        value: 20.18.0
+      - key: PYTHONPATH
+        value: backend
