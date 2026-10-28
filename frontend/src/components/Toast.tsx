@@ -23,42 +23,46 @@ export const ToastContainer: React.FC<ToastContainerProps> = ({ toasts, onDismis
           switch (toast.type) {
             case 'success':
               return {
-                bg: 'bg-navy-900/95 border-emerald-500/40 text-emerald-400',
+                border: 'border-emerald-200',
+                iconColor: 'text-emerald-600',
                 icon: CheckCircle,
               };
             case 'warning':
               return {
-                bg: 'bg-navy-900/95 border-amber-500/40 text-amber-400',
+                border: 'border-amber-200',
+                iconColor: 'text-amber-600',
                 icon: AlertCircle,
               };
             case 'error':
               return {
-                bg: 'bg-navy-900/95 border-rose-500/40 text-rose-400',
+                border: 'border-rose-200',
+                iconColor: 'text-rose-600',
                 icon: AlertCircle,
               };
             default:
               return {
-                bg: 'bg-navy-900/95 border-blue-500/40 text-blue-400',
+                border: 'border-blue-200',
+                iconColor: 'text-blue-600',
                 icon: Info,
               };
           }
         };
 
-        const { bg, icon: Icon } = getStyles();
+        const { border, iconColor, icon: Icon } = getStyles();
 
         return (
           <div
             key={toast.id}
-            className={`pointer-events-auto flex items-start gap-3 p-4 rounded-xl border shadow-xl backdrop-blur-md transition-all animate-in slide-in-from-top-2 ${bg}`}
+            className={`pointer-events-auto flex items-start gap-3 p-4 rounded-2xl bg-white border ${border} shadow-lg shadow-blue-500/10 backdrop-blur-md transition-all animate-in slide-in-from-top-2`}
           >
-            <Icon className="w-5 h-5 shrink-0 mt-0.5" />
+            <Icon className={`w-5 h-5 shrink-0 mt-0.5 ${iconColor}`} />
             <div className="flex-1 min-w-0">
-              <h4 className="text-sm font-semibold text-white">{toast.title}</h4>
-              {toast.message && <p className="text-xs text-slate-300 mt-0.5 leading-relaxed">{toast.message}</p>}
+              <h4 className="text-sm font-bold text-slate-900">{toast.title}</h4>
+              {toast.message && <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">{toast.message}</p>}
             </div>
             <button
               onClick={() => onDismiss(toast.id)}
-              className="p-1 text-slate-400 hover:text-white rounded-lg transition-colors shrink-0"
+              className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
@@ -68,4 +72,3 @@ export const ToastContainer: React.FC<ToastContainerProps> = ({ toasts, onDismis
     </div>
   );
 };
-

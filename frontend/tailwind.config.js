@@ -7,54 +7,38 @@ export default {
   theme: {
     extend: {
       colors: {
-        dark: {
-          950: '#030712', // deep obsidian
-          900: '#0B0F19', // surface primary
-          850: '#111827', // card surface
-          800: '#1F2937', // border
-          700: '#374151',
+        // Modern White & Blue theme palettes
+        surface: {
+          50: '#F8FAFC',
+          100: '#F1F5F9',
+          200: '#E2E8F0',
+          300: '#CBD5E1',
+          card: '#FFFFFF',
         },
         navy: {
-          950: '#030712',
-          900: '#0A0F1D',
-          850: '#0F172A',
-          800: '#1E293B',
-          700: '#334155',
+          950: '#0B1528',
+          900: '#0F1E36',
+          850: '#162846',
+          800: '#1E3A5F',
+          700: '#2C4F7C',
         },
-        neon: {
-          green: '#00F59B',
-          cyan: '#00E5FF',
-          violet: '#A855F7',
-          rose: '#FF3366',
-          amber: '#FFB800',
+        brand: {
+          50: '#EFF6FF',
+          100: '#DBEAFE',
+          200: '#BFDBFE',
+          300: '#93C5FD',
+          400: '#60A5FA',
+          500: '#3B82F6',
+          600: '#2563EB', // Core Royal Blue
+          700: '#1D4ED8',
+          800: '#1E40AF',
+          900: '#1E3A8A',
         },
-        emerald: {
-          300: '#6EE7B7',
-          400: '#34D399',
-          500: '#10B981',
-          600: '#059669',
-          neon: '#00F59B',
-        },
-        amber: {
-          400: '#FBBF24',
-          500: '#F59E0B',
-          600: '#D97706',
-        },
-        rose: {
-          400: '#FB7185',
-          500: '#F43F5E',
-          600: '#E11D48',
-          neon: '#FF3366',
-        },
-        purple: {
-          400: '#C084FC',
-          500: '#A855F7',
-          600: '#9333EA',
-        },
-        cyan: {
-          300: '#67E8F9',
-          400: '#22D3EE',
-          500: '#06B6D4',
+        accent: {
+          cyan: '#0284C7',
+          sky: '#0EA5E9',
+          indigo: '#4F46E5',
+          teal: '#0D9488',
         }
       },
       fontFamily: {
@@ -63,16 +47,13 @@ export default {
         mono: ['"JetBrains Mono"', 'monospace'],
       },
       boxShadow: {
-        'glow-green': '0 0 35px -5px rgba(0, 245, 155, 0.4)',
-        'glow-cyan': '0 0 35px -5px rgba(0, 229, 255, 0.35)',
-        'glow-violet': '0 0 35px -5px rgba(168, 85, 247, 0.4)',
-        'glow-rose': '0 0 35px -5px rgba(255, 51, 102, 0.4)',
-        'glow-amber': '0 0 35px -5px rgba(255, 184, 0, 0.4)',
-        'card': '0 10px 30px -10px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.07)',
-        'card-hover': '0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(0, 245, 155, 0.25)',
+        'glow-blue': '0 0 35px -5px rgba(37, 99, 235, 0.35)',
+        'glow-cyan': '0 0 35px -5px rgba(14, 165, 233, 0.35)',
+        'soft': '0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04)',
+        'card': '0 10px 30px -10px rgba(37, 99, 235, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05)',
+        'card-hover': '0 20px 35px -12px rgba(37, 99, 235, 0.16), 0 2px 8px rgba(37, 99, 235, 0.08)',
       }
     },
   },
   plugins: [],
 }
-

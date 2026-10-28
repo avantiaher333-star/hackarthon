@@ -3,7 +3,7 @@ import { RoadReport, Hotspot, ReportStatus } from '../types';
 import { MapView } from '../components/MapView';
 import { StatusBadge, SeverityBadge } from '../components/StatusBadge';
 import { formatCoords, formatTimeAgo } from '../utils/geo';
-import { Filter, Flame, Eye, X, Check, Clock, AlertCircle } from 'lucide-react';
+import { Filter, Flame, X } from 'lucide-react';
 
 interface LiveMapViewProps {
   reports: RoadReport[];
@@ -53,17 +53,17 @@ export const LiveMapView: React.FC<LiveMapViewProps> = ({
   return (
     <div className="space-y-4 pb-24 md:pb-8 flex flex-col h-[calc(100vh-130px)] min-h-[550px]">
       {/* Top Filter Bar */}
-      <div className="bg-navy-850 border border-navy-800 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3 shadow-md shrink-0">
+      <div className="bg-white border border-slate-200/90 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3 shadow-sm shrink-0">
         <div className="flex items-center gap-2 flex-wrap">
-          <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-300 mr-2">
-            <Filter className="w-4 h-4 text-emerald-400" /> Filters:
+          <div className="flex items-center gap-1.5 text-xs font-bold text-slate-700 mr-2">
+            <Filter className="w-4 h-4 text-blue-600" /> Filters:
           </div>
 
           {/* Status Filter */}
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-navy-900 border border-navy-700 text-xs text-slate-200 rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-emerald-500"
+            className="bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-800 rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-blue-500"
           >
             <option value="all">All Statuses ({reports.length})</option>
             <option value="new">Suspected Defect (New)</option>
@@ -76,7 +76,7 @@ export const LiveMapView: React.FC<LiveMapViewProps> = ({
           <select
             value={demoFilter}
             onChange={(e) => setDemoFilter(e.target.value as 'all' | 'real' | 'demo')}
-            className="bg-navy-900 border border-navy-700 text-xs text-slate-200 rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-emerald-500"
+            className="bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-800 rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-blue-500"
           >
             <option value="all">Real & Demo</option>
             <option value="real">Real Sensors Only</option>
@@ -88,10 +88,10 @@ export const LiveMapView: React.FC<LiveMapViewProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={() => setShowHotspots(!showHotspots)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border transition-all ${
               showHotspots
-                ? 'bg-amber-500/15 border-amber-500/30 text-amber-300'
-                : 'bg-navy-900 border-navy-700 text-slate-400'
+                ? 'bg-amber-50 border-amber-200 text-amber-800 shadow-xs'
+                : 'bg-slate-50 border-slate-200 text-slate-500'
             }`}
           >
             <Flame className="w-3.5 h-3.5" />
@@ -101,7 +101,7 @@ export const LiveMapView: React.FC<LiveMapViewProps> = ({
       </div>
 
       {/* Map & Inspect Container */}
-      <div className="relative flex-1 w-full rounded-2xl overflow-hidden border border-navy-800 shadow-xl min-h-[380px]">
+      <div className="relative flex-1 w-full rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm min-h-[380px]">
         <MapView
           reports={filteredReports}
           hotspots={hotspots}
@@ -115,59 +115,59 @@ export const LiveMapView: React.FC<LiveMapViewProps> = ({
 
         {/* Selected Incident Drawer / Card */}
         {selectedReport && (
-          <div className="absolute bottom-4 left-4 right-4 sm:right-auto sm:w-96 z-[1000] bg-navy-900/95 backdrop-blur-md border border-navy-700 rounded-2xl p-4 shadow-2xl animate-in slide-in-from-bottom-4">
-            <div className="flex items-center justify-between pb-2 mb-3 border-b border-navy-800">
+          <div className="absolute bottom-4 left-4 right-4 sm:right-auto sm:w-96 z-[1000] bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl p-4 shadow-xl shadow-blue-500/10 animate-in slide-in-from-bottom-4">
+            <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-100">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-mono font-bold text-white">
+                <span className="text-xs font-mono font-bold text-blue-700">
                   {selectedReport.id}
                 </span>
                 <StatusBadge status={selectedReport.status} isDemo={selectedReport.is_demo} />
               </div>
               <button
                 onClick={() => onSelectReport(null)}
-                className="p-1 text-slate-400 hover:text-white rounded-lg transition-colors"
+                className="p-1 text-slate-400 hover:text-slate-700 rounded-lg transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="space-y-2 text-xs text-slate-300">
+            <div className="space-y-2 text-xs text-slate-600">
               <div className="flex justify-between items-center">
                 <span className="text-slate-400">Severity</span>
                 <SeverityBadge severity={selectedReport.severity_estimate} />
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-slate-400">Jolt Magnitude</span>
-                <span className="font-mono font-bold text-slate-200">
+                <span className="font-mono font-bold text-slate-900">
                   {selectedReport.sensor_score} m/s²
                 </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-slate-400">Coordinates</span>
-                <span className="font-mono text-slate-200">
+                <span className="font-mono text-slate-800">
                   {formatCoords(selectedReport.latitude, selectedReport.longitude)}
                 </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-slate-400">Reported</span>
-                <span className="text-slate-300">{formatTimeAgo(selectedReport.timestamp)}</span>
+                <span className="text-slate-700">{formatTimeAgo(selectedReport.timestamp)}</span>
               </div>
               {selectedReport.notes && (
-                <div className="p-2 rounded-lg bg-navy-950 border border-navy-800 text-[11px] text-slate-300">
+                <div className="p-2 rounded-lg bg-blue-50/60 border border-blue-100 text-[11px] text-blue-900 italic">
                   "{selectedReport.notes}"
                 </div>
               )}
             </div>
 
             {/* Quick Municipal Triage Action */}
-            <div className="mt-4 pt-3 border-t border-navy-800 flex items-center justify-between gap-2">
-              <span className="text-[11px] font-semibold text-slate-400">Update Status:</span>
+            <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+              <span className="text-[11px] font-semibold text-slate-500">Update Status:</span>
               <div className="flex items-center gap-1.5">
                 {selectedReport.status !== 'inspection_scheduled' && (
                   <button
                     disabled={isUpdating}
                     onClick={() => handleStatusChange('inspection_scheduled')}
-                    className="px-2.5 py-1 text-[11px] font-medium rounded-lg bg-blue-500/20 text-blue-300 border border-blue-500/30 hover:bg-blue-500/30 transition-all"
+                    className="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 transition-all shadow-xs"
                   >
                     Schedule
                   </button>
@@ -176,7 +176,7 @@ export const LiveMapView: React.FC<LiveMapViewProps> = ({
                   <button
                     disabled={isUpdating}
                     onClick={() => handleStatusChange('resolved')}
-                    className="px-2.5 py-1 text-[11px] font-medium rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/30 transition-all"
+                    className="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-all shadow-xs"
                   >
                     Resolve
                   </button>
@@ -189,4 +189,3 @@ export const LiveMapView: React.FC<LiveMapViewProps> = ({
     </div>
   );
 };
-

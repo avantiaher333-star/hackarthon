@@ -18,7 +18,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({ currentView, onNavigate })
   ];
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-navy-950/95 backdrop-blur-lg border-t border-navy-800/80 px-2 py-1 safe-area-inset-bottom">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-lg border-t border-slate-200 px-2 py-1 safe-area-inset-bottom shadow-lg shadow-blue-500/5">
       <div className="grid grid-cols-5 items-center justify-around">
         {items.map((item) => {
           const Icon = item.icon;
@@ -29,12 +29,12 @@ export const BottomNav: React.FC<BottomNavProps> = ({ currentView, onNavigate })
               key={item.id}
               onClick={() => onNavigate(item.id)}
               className={`flex flex-col items-center justify-center min-h-[50px] py-1 transition-all rounded-xl ${
-                active ? 'text-emerald-400' : 'text-slate-400 hover:text-slate-200'
+                active ? 'text-blue-600' : 'text-slate-500 hover:text-slate-700'
               }`}
             >
               <div
                 className={`p-1 rounded-xl transition-all ${
-                  active ? 'bg-emerald-500/15' : 'bg-transparent'
+                  active ? 'bg-blue-50 text-blue-600' : 'bg-transparent'
                 }`}
               >
                 <Icon className={`w-5 h-5 ${active ? 'stroke-[2.5]' : 'stroke-[1.8]'}`} />
@@ -49,4 +49,3 @@ export const BottomNav: React.FC<BottomNavProps> = ({ currentView, onNavigate })
     </nav>
   );
 };
-

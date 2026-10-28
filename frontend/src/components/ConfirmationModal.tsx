@@ -25,24 +25,24 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in">
-      <div className="bg-navy-850 border border-navy-800 rounded-2xl max-w-md w-full p-6 shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in">
+      <div className="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-2xl">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isDestructive ? 'bg-rose-500/15 text-rose-400 border border-rose-500/30' : 'bg-blue-500/15 text-blue-400 border border-blue-500/30'}`}>
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isDestructive ? 'bg-rose-50 text-rose-600 border border-rose-200' : 'bg-blue-50 text-blue-600 border border-blue-200'}`}>
               <AlertTriangle className="w-5 h-5" />
             </div>
-            <h3 className="text-lg font-bold text-white">{title}</h3>
+            <h3 className="text-lg font-bold text-slate-900 font-sans">{title}</h3>
           </div>
           <button
             onClick={onCancel}
-            className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-navy-800 transition-colors"
+            className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <p className="text-sm text-slate-300 mb-6 leading-relaxed">
+        <p className="text-sm text-slate-600 mb-6 leading-relaxed">
           {message}
         </p>
 
@@ -50,17 +50,17 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2.5 rounded-xl text-sm font-medium text-slate-300 hover:text-white bg-navy-800 hover:bg-slate-700 transition-colors"
+            className="px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 transition-colors"
           >
             {cancelLabel}
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            className={`px-4 py-2.5 rounded-xl text-sm font-semibold text-white shadow-lg transition-all ${
+            className={`px-4 py-2.5 rounded-xl text-sm font-bold text-white shadow-md transition-all ${
               isDestructive
-                ? 'bg-rose-600 hover:bg-rose-500 shadow-rose-600/30'
-                : 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-600/30'
+                ? 'bg-rose-600 hover:bg-rose-700 shadow-rose-600/25'
+                : 'bg-blue-600 hover:bg-blue-700 shadow-blue-600/25'
             }`}
           >
             {confirmLabel}
@@ -70,4 +70,3 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     </div>
   );
 };
-
