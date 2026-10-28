@@ -106,3 +106,4 @@ export const VibrationOscilloscope: React.FC<VibrationOscilloscopeProps> = ({
     </div>
   );
 };
+

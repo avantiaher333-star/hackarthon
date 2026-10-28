@@ -88,47 +88,47 @@ export const HomeView: React.FC<HomeViewProps> = ({
   return (
     <div className="space-y-6 pb-24 md:pb-10 max-w-7xl mx-auto">
       {/* Hero Drive Telemetry Panel */}
-      <section className="relative overflow-hidden rounded-3xl glass-panel-elevated p-6 sm:p-8">
-        {/* Glow ambient background element */}
-        <div className="absolute top-0 right-1/4 -mt-24 w-80 h-80 bg-emerald-500/15 rounded-full blur-[90px] pointer-events-none" />
-        <div className="absolute bottom-0 right-0 -mb-20 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px] pointer-events-none" />
+      <section className="relative overflow-hidden rounded-3xl glass-card-elevated p-6 sm:p-8 border border-white/10">
+        {/* Glow ambient background lights */}
+        <div className="absolute top-0 right-1/4 -mt-24 w-96 h-96 bg-neon-green/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 right-0 -mb-20 w-80 h-80 bg-neon-cyan/10 rounded-full blur-[90px] pointer-events-none" />
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Column: Heading & Controls */}
-          <div className="lg:col-span-7 space-y-5">
+          <div className="lg:col-span-7 space-y-6">
             <div className="flex items-center gap-2 flex-wrap">
               <span
-                className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold tracking-wider border ${status.color}`}
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] font-mono font-bold tracking-wider bg-emerald-500/10 border border-emerald-400/30 text-emerald-300 shadow-glow-green"
               >
-                <span className={`w-1.5 h-1.5 rounded-full ${status.dot}`} />
+                <span className="w-2 h-2 rounded-full bg-neon-green animate-ping" />
                 {status.badge}
               </span>
 
               {geoState.accuracy && (
-                <span className="text-[11px] font-mono text-slate-400 bg-white/[0.04] px-2.5 py-1 rounded-full border border-white/5">
+                <span className="text-[11px] font-mono text-slate-300 bg-white/[0.05] px-3 py-1 rounded-full border border-white/10">
                   GPS ±{Math.round(geoState.accuracy)}m
                 </span>
               )}
             </div>
 
             <div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
-                Turn Every Ride Into A <br />
-                <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
-                  Road Quality Inspector.
+              <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-[1.1] font-display">
+                Every Ride Maps <br />
+                <span className="text-gradient-emerald">
+                  City Road Defects.
                 </span>
               </h2>
-              <p className="text-sm text-slate-300 mt-2 max-w-xl leading-relaxed font-body">
-                Phone accelerometer telemetrics instantly detect surface jolts, geotag pothole hazards, and prioritize repair crews through municipal AI clustering.
+              <p className="text-sm sm:text-base text-slate-300 mt-3 max-w-xl leading-relaxed font-sans font-normal">
+                Smartphone vibration telemetry captures sudden asphalt jolts, geotags dangerous potholes, and triggers priority public-works repairs with AI clustering.
               </p>
             </div>
 
             {/* Transit Mode Selection */}
             <div className="space-y-2 pt-1">
               <span className="text-[11px] font-bold text-slate-400 tracking-wider uppercase font-mono">
-                Vehicle Mode:
+                Vehicle Telemetry Mode:
               </span>
-              <div className="flex items-center gap-2 flex-wrap">
+              <div className="flex items-center gap-2.5 flex-wrap">
                 {[
                   { id: 'car' as const, label: 'Automobile', icon: Car },
                   { id: 'bike' as const, label: 'Motorbike / Scooter', icon: Bike },
@@ -140,13 +140,13 @@ export const HomeView: React.FC<HomeViewProps> = ({
                     <button
                       key={mode.id}
                       onClick={() => setTransitMode(mode.id)}
-                      className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                      className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all ${
                         active
-                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm'
-                          : 'bg-white/[0.03] text-slate-400 border border-white/5 hover:text-slate-200'
+                          ? 'bg-neon-green/20 text-white border border-neon-green/50 shadow-glow-green font-bold'
+                          : 'bg-white/[0.03] text-slate-400 border border-white/10 hover:text-white hover:bg-white/[0.06]'
                       }`}
                     >
-                      <Icon className="w-3.5 h-3.5" />
+                      <Icon className="w-4 h-4" />
                       {mode.label}
                     </button>
                   );
@@ -158,10 +158,10 @@ export const HomeView: React.FC<HomeViewProps> = ({
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
               <button
                 onClick={onToggleMonitoring}
-                className={`flex items-center justify-center gap-3 px-7 py-4 rounded-2xl font-bold text-sm tracking-wide transition-all shadow-xl active:scale-[0.98] ${
+                className={`flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-black text-sm tracking-wide transition-all shadow-xl active:scale-[0.98] ${
                   isMonitoring
-                    ? 'bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white shadow-glow-rose'
-                    : 'bg-gradient-to-r from-emerald-400 via-emerald-500 to-teal-500 hover:brightness-110 text-navy-950 font-black shadow-glow-emerald'
+                    ? 'bg-gradient-to-r from-rose-600 to-red-600 hover:brightness-110 text-white shadow-glow-rose'
+                    : 'bg-gradient-to-r from-neon-green via-emerald-400 to-cyan-400 hover:brightness-110 text-dark-950 font-black shadow-glow-green'
                 }`}
               >
                 {isMonitoring ? (
@@ -179,7 +179,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
               <button
                 onClick={onSimulateHit}
-                className="flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl font-bold text-sm bg-purple-500/15 hover:bg-purple-500/25 border border-purple-500/35 text-purple-200 hover:text-white transition-all shadow-md active:scale-[0.98]"
+                className="flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl font-bold text-sm bg-purple-500/15 hover:bg-purple-500/25 border border-purple-500/40 text-purple-200 hover:text-white transition-all shadow-glow-violet active:scale-[0.98]"
               >
                 <Sparkles className="w-4 h-4 text-purple-400 animate-pulse" />
                 <span>Simulate Impact Hit</span>
@@ -188,14 +188,14 @@ export const HomeView: React.FC<HomeViewProps> = ({
           </div>
 
           {/* Right Column: Live Oscilloscope & Telemetry Gauge */}
-          <div className="lg:col-span-5 space-y-4 bg-navy-950/60 border border-white/5 rounded-2xl p-5 backdrop-blur-md">
-            <div className="flex items-center justify-between pb-2 border-b border-white/5">
-              <span className="text-xs font-bold text-white flex items-center gap-2">
-                <Activity className="w-4 h-4 text-emerald-400" />
-                Vibration Oscilloscope
+          <div className="lg:col-span-5 space-y-4 bg-dark-900/80 border border-white/10 rounded-2xl p-5 backdrop-blur-md shadow-2xl">
+            <div className="flex items-center justify-between pb-2 border-b border-white/10">
+              <span className="text-xs font-bold text-white flex items-center gap-2 font-display">
+                <Activity className="w-4 h-4 text-neon-green" />
+                Real-Time Oscilloscope
               </span>
-              <span className="text-[11px] font-mono text-emerald-400 font-semibold">
-                {isMonitoring ? 'LIVE 50Hz' : 'IDLE'}
+              <span className="text-[11px] font-mono text-neon-green font-bold">
+                {isMonitoring ? 'LIVE 50Hz' : 'STANDBY'}
               </span>
             </div>
 
@@ -208,9 +208,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
             {/* Telemetry Gauge Grid */}
             <div className="grid grid-cols-2 gap-3 pt-1">
-              <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3">
+              <div className="bg-dark-850/80 border border-white/10 rounded-xl p-3">
                 <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">
-                  Current Magnitude
+                  Current Vibration
                 </span>
                 <div className="flex items-baseline gap-1 mt-0.5">
                   <span className="text-2xl font-mono font-extrabold text-white">
@@ -220,21 +220,21 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 </div>
               </div>
 
-              <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3">
+              <div className="bg-dark-850/80 border border-white/10 rounded-xl p-3">
                 <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">
                   Peak Impact Jolt
                 </span>
                 <div className="flex items-baseline gap-1 mt-0.5">
-                  <span className="text-2xl font-mono font-extrabold text-amber-400">
+                  <span className="text-2xl font-mono font-extrabold text-neon-amber">
                     {motionState.peakJolt.toFixed(1)}
                   </span>
                   <span className="text-[11px] text-slate-400 font-mono">m/s²</span>
                 </div>
               </div>
 
-              <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3">
+              <div className="bg-dark-850/80 border border-white/10 rounded-xl p-3">
                 <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">
-                  Location Fix
+                  GPS Coordinates
                 </span>
                 <span className="text-xs font-mono font-semibold text-slate-200 mt-1 block truncate">
                   {geoState.latitude
@@ -243,12 +243,12 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 </span>
               </div>
 
-              <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3">
+              <div className="bg-dark-850/80 border border-white/10 rounded-xl p-3">
                 <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">
-                  Session Detections
+                  Session Hits
                 </span>
                 <div className="flex items-baseline gap-1 mt-0.5">
-                  <span className="text-2xl font-mono font-extrabold text-emerald-400">
+                  <span className="text-2xl font-mono font-extrabold text-neon-green">
                     {sessionReportsCount}
                   </span>
                   <span className="text-[11px] text-slate-400 font-mono">events</span>
@@ -260,57 +260,57 @@ export const HomeView: React.FC<HomeViewProps> = ({
       </section>
 
       {/* Humanized Metrics Overview */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        <div className="glass-panel p-5 rounded-2xl space-y-1 hover:border-white/15 transition-all">
+      <section className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-5">
+        <div className="glass-card p-5 sm:p-6 rounded-3xl space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-400 font-body">Surveyed Hazards</span>
-            <div className="w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center">
-              <MapPin className="w-4 h-4" />
+            <span className="text-xs font-semibold text-slate-400 font-sans tracking-wide">Total Road Hazards</span>
+            <div className="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/20 text-cyan-300 flex items-center justify-center shadow-sm">
+              <MapPin className="w-5 h-5" />
             </div>
           </div>
-          <span className="text-3xl font-extrabold text-white font-mono block">
+          <span className="text-3xl sm:text-4xl font-black text-white font-mono block">
             {stats ? stats.total_reports : reports.length}
           </span>
-          <span className="text-[11px] text-slate-400 block">Total crowdsourced reports</span>
+          <span className="text-[11px] text-slate-400 block font-sans">Geotagged pothole reports</span>
         </div>
 
-        <div className="glass-panel p-5 rounded-2xl space-y-1 hover:border-white/15 transition-all">
+        <div className="glass-card p-5 sm:p-6 rounded-3xl space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-400 font-body">DBSCAN Hotspots</span>
-            <div className="w-8 h-8 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center">
-              <Flame className="w-4 h-4" />
+            <span className="text-xs font-semibold text-slate-400 font-sans tracking-wide">DBSCAN Hotspots</span>
+            <div className="w-10 h-10 rounded-2xl bg-amber-400/10 border border-amber-400/20 text-amber-300 flex items-center justify-center shadow-sm">
+              <Flame className="w-5 h-5" />
             </div>
           </div>
-          <span className="text-3xl font-extrabold text-amber-400 font-mono block">
+          <span className="text-3xl sm:text-4xl font-black text-amber-400 font-mono block">
             {hotspots.length}
           </span>
-          <span className="text-[11px] text-slate-400 block">High density repair zones</span>
+          <span className="text-[11px] text-slate-400 block font-sans">High-density repair zones</span>
         </div>
 
-        <div className="glass-panel p-5 rounded-2xl space-y-1 hover:border-white/15 transition-all">
+        <div className="glass-card p-5 sm:p-6 rounded-3xl space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-400 font-body">24-Hour Pulse</span>
-            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center">
-              <Compass className="w-4 h-4" />
+            <span className="text-xs font-semibold text-slate-400 font-sans tracking-wide">24-Hour Pulse</span>
+            <div className="w-10 h-10 rounded-2xl bg-emerald-400/10 border border-emerald-400/20 text-neon-green flex items-center justify-center shadow-sm">
+              <Compass className="w-5 h-5" />
             </div>
           </div>
-          <span className="text-3xl font-extrabold text-emerald-400 font-mono block">
+          <span className="text-3xl sm:text-4xl font-black text-neon-green font-mono block">
             {stats ? stats.reports_24h : 0}
           </span>
-          <span className="text-[11px] text-slate-400 block">Recent road detections</span>
+          <span className="text-[11px] text-slate-400 block font-sans">Fresh telemetry signals</span>
         </div>
 
-        <div className="glass-panel p-5 rounded-2xl space-y-1 hover:border-white/15 transition-all">
+        <div className="glass-card p-5 sm:p-6 rounded-3xl space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-400 font-body">Repairs Completed</span>
-            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center">
-              <CheckCircle2 className="w-4 h-4" />
+            <span className="text-xs font-semibold text-slate-400 font-sans tracking-wide">Repairs Resolved</span>
+            <div className="w-10 h-10 rounded-2xl bg-purple-400/10 border border-purple-400/20 text-purple-300 flex items-center justify-center shadow-sm">
+              <CheckCircle2 className="w-5 h-5" />
             </div>
           </div>
-          <span className="text-3xl font-extrabold text-white font-mono block">
+          <span className="text-3xl sm:text-4xl font-black text-white font-mono block">
             {stats ? stats.resolved_count : 0}
           </span>
-          <span className="text-[11px] text-slate-400 block">Municipal actions verified</span>
+          <span className="text-[11px] text-slate-400 block font-sans">Municipal repairs logged</span>
         </div>
       </section>
 
